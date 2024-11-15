@@ -13,15 +13,15 @@ const createTables = async () => {
               id UUID PRIMARY KEY,
               name VARCHAR(50) NOT NULL UNIQUE
           );
-          CREATE TABLE places(
+          CREATE TABLE restaurants(
               id UUID PRIMARY KEY,
               name VARCHAR(50) NOT NULL UNIQUE
           );
-          CREATE TABLE vacations(
+          CREATE TABLE reservations(
               id UUID PRIMARY KEY,
               departure_date DATE NOT NULL,
-              user_id UUID REFERENCES users(id) NOT NULL,
-              place_id UUID REFERENCES places(id) NOT NULL
+              user_id UUID REFERENCES customers(id) NOT NULL,
+              place_id UUID REFERENCES restaurants(id) NOT NULL
           );
       `;
   
@@ -31,10 +31,10 @@ const createTables = async () => {
 module.exports = {
   client,
   createTables,
-  createCustomer,
-  createRestaurant,
-  fetchCustomers,
-  fetchRestaurants,
-  createReservation,
-  destroyReservation,
+//   createCustomer,
+//   createRestaurant,
+//   fetchCustomers,
+//   fetchRestaurants,
+//   createReservation,
+//   destroyReservation,
 };

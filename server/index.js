@@ -3,8 +3,8 @@ const {
   createTables,
   createCustomer,
   createRestaurant,
-  //   fetchCustomers,
-  //   fetchRestaurants,
+  fetchCustomers,
+  fetchRestaurants,
   //   createReservation,
   //   destroyReservation,
 } = require("./db");
@@ -30,6 +30,9 @@ const init = async () => {
       createRestaurant({ name: "marea" }),
       createRestaurant({ name: "chipotle" }),
     ]);
+  // fetchCustomers and fetchRestaurants
+  console.log(await fetchCustomers());
+  console.log(await fetchRestaurants());
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => {

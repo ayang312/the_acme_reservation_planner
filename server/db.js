@@ -94,6 +94,15 @@ const fetchReservations = async () => {
   return response.rows;
 };
 
+const destroyReservation = async ({ id, customer_id }) => {
+  console.log(id, customer_id);
+  const SQL = `
+          DELETE FROM reservations
+          WHERE id = $1 AND customer_id=$2
+      `;
+  await client.query(SQL, [id, customer_id]);
+};
+
 module.exports = {
   client,
   createTables,
@@ -103,5 +112,5 @@ module.exports = {
   fetchRestaurants,
   createReservation,
   fetchReservations,
-  //   destroyReservation,
+  destroyReservation,
 };

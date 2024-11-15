@@ -7,7 +7,7 @@ const {
   fetchRestaurants,
   createReservation,
   fetchReservations,
-  //   destroyReservation,
+  destroyReservation,
 } = require("./db");
 const express = require("express");
 const app = express();
@@ -56,6 +56,13 @@ const init = async () => {
       reservation_date: "11/30/2024",
     }),
   ]);
+  console.log(await fetchReservations());
+
+  // delete reservation function
+  await destroyReservation({
+    id: reservation.id,
+    customer_id: reservation.customer_id,
+  });
   console.log(await fetchReservations());
 
   const port = process.env.PORT || 3000;

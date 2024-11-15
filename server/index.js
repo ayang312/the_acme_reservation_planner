@@ -1,8 +1,8 @@
 const {
   client,
   createTables,
-  //   createCustomer,
-  //   createRestaurant,
+  createCustomer,
+  createRestaurant,
   //   fetchCustomers,
   //   fetchRestaurants,
   //   createReservation,
@@ -20,6 +20,16 @@ const init = async () => {
   console.log("connected to database");
   await createTables();
   console.log("created tables!");
+  const [andrew, kathy, mike, grace, carbone, marea, chipotle] =
+    await Promise.all([
+      createCustomer({ name: "andrew" }),
+      createCustomer({ name: "kathy" }),
+      createCustomer({ name: "mike" }),
+      createCustomer({ name: "grace" }),
+      createRestaurant({ name: "carbone" }),
+      createRestaurant({ name: "marea" }),
+      createRestaurant({ name: "chipotle" }),
+    ]);
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => {

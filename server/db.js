@@ -4,8 +4,10 @@ const client = new pg.Client(
     "postgres://localhost/the_acme_reservation_planner"
 );
 
+const uuid = require("uuid");
+
 const createTables = async () => {
-    const SQL = /* sql */ `
+  const SQL = /* sql */ `
           DROP TABLE IF EXISTS reservations;
           DROP TABLE IF EXISTS customers;
           DROP TABLE IF EXISTS restaurants;
@@ -24,17 +26,36 @@ const createTables = async () => {
               place_id UUID REFERENCES restaurants(id) NOT NULL
           );
       `;
-  
-    await client.query(SQL);
-  };
+
+  await client.query(SQL);
+};
+
+const createCustomer = async (name) => {
+  const SQL = /*sql*/ `
+      INSERT INTO customers(id, name) 
+      VALUES($1, $2) RETURNING *
+    `;
+  const response = await client.query(SQL, [uuid.v4(), name]);
+  return response.rows[0];
+};
+
+const createRestaurant = async (name) => {
+  const SQL = /*sql*/ `
+        INSERT INTO restaurants(id, name) 
+        VALUES($1, $2) 
+        RETURNING *
+      `;
+  const response = await client.query(SQL, [uuid.v4(), name]);
+  return response.rows[0];
+};
 
 module.exports = {
   client,
   createTables,
-//   createCustomer,
-//   createRestaurant,
-//   fetchCustomers,
-//   fetchRestaurants,
-//   createReservation,
-//   destroyReservation,
+  createCustomer,
+  createRestaurant,
+  //   fetchCustomers,
+  //   fetchRestaurants,
+  //   createReservation,
+  //   destroyReservation,
 };

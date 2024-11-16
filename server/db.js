@@ -22,6 +22,7 @@ const createTables = async () => {
           CREATE TABLE reservations(
               id UUID PRIMARY KEY,
               reservation_date DATE NOT NULL,
+              party_count INTEGER DEFAULT 1 NOT NULL,
               customer_id UUID REFERENCES customers(id) NOT NULL,
               restaurant_id UUID REFERENCES restaurants(id) NOT NULL
           );
@@ -70,10 +71,11 @@ const createReservation = async ({
   restaurant_id,
   customer_id,
   reservation_date,
+  party_count,
 }) => {
   const SQL = /*sql*/ `
-        INSERT INTO reservations(id, restaurant_id, customer_id, reservation_date) 
-        VALUES($1, $2, $3, $4) 
+        INSERT INTO reservations(id, restaurant_id, customer_id, reservation_date, party_count) 
+        VALUES($1, $2, $3, $4, $5) 
         RETURNING *
       `;
   const response = await client.query(SQL, [
@@ -81,6 +83,7 @@ const createReservation = async ({
     restaurant_id,
     customer_id,
     reservation_date,
+    party_count,
   ]);
   return response.rows[0];
 };
